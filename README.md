@@ -1,18 +1,36 @@
-# VirtualRealityYoga
+# Ash Nested Calculation Bug Reproduction
 
-To start your Phoenix server:
+This repository demonstrates a crash issue related to nested calculations not being properly loaded in Ash.
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+## Reproducing the Issue
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+To observe the crash:
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+1. Clone this repository.
+2. Ensure you are on the `main` branch.
+3. Run the following commands:
+   ```bash
+   mix ecto.reset
+   mix test
+   ```
+4. You will observe the test failure due to a crash caused by the nested calculation not loading properly.
 
-## Learn more
+## Ash 3.4.52 Behavior
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+To verify that the issue does not occur in Ash 3.4.52:
+
+1. Switch to the `with-ash-3.4.52` branch:
+   ```bash
+   git checkout with-ash-3.4.52
+   ```
+2. Run the same commands:
+   ```bash
+   mix ecto.reset
+   mix test
+   ```
+3. All tests will pass, confirming that this issue does not occur in Ash 3.4.52.
+
+## Additional Information
+
+This repository is structured to make it easy to isolate and test the issue. For any questions or further clarifications, feel free to open an issue or submit a pull request.
+
