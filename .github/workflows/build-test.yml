@@ -1,0 +1,40 @@
+name: Build test
+on:
+  push:
+    branches: ["**"]
+
+env:
+  otp: 27.2.0.0
+  elixir: 1.18.1
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16.4-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - uses: erlef/setup-beam@v1.18.2
+        with:
+          otp-version: ${{env.otp}}
+          elixir-version: ${{env.elixir}}
+
+      - run: mix do local.rebar --force, local.hex --force
+
+      - run: mix deps.get
+
+      - run: mix compile
+
+      - run: mix ecto.reset
+
+      - run: mix test
