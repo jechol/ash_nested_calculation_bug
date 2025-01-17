@@ -21,6 +21,19 @@ defmodule VirtualRealityYoga.Blog.Comment do
   end
 
   relationships do
-    belongs_to :post, Post
+    belongs_to :post, Post, public?: true
+  end
+
+  calculations do
+    calculate :post_comments_count, :integer do
+      load post: :comments
+
+      calculation fn comments, ctx ->
+        comments
+        |> Enum.map(fn comment ->
+          comment.post.comments |> Enum.count()
+        end)
+      end
+    end
   end
 end
