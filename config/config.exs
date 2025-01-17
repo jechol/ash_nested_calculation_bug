@@ -41,7 +41,8 @@ config :spark,
 
 config :virtual_reality_yoga,
   ecto_repos: [VirtualRealityYoga.Repo],
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime],
+  ash_domains: [VirtualRealityYoga.Blog]
 
 # Configures the endpoint
 config :virtual_reality_yoga, VirtualRealityYogaWeb.Endpoint,
