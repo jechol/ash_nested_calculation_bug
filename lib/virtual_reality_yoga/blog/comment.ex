@@ -1,9 +1,15 @@
 defmodule VirtualRealityYoga.Blog.Comment do
   use Ash.Resource,
     otp_app: :virtual_reality_yoga,
-    domain: VirtualRealityYoga.Blog
+    domain: VirtualRealityYoga.Blog,
+    data_layer: AshPostgres.DataLayer
 
   alias VirtualRealityYoga.Blog.Post
+
+  postgres do
+    repo VirtualRealityYoga.Repo
+    table "comment"
+  end
 
   actions do
     default_accept :*
