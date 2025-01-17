@@ -28,8 +28,9 @@ defmodule VirtualRealityYoga.Blog.CommentTest do
         Comment |> Changeset.for_create(:create, %{post_id: post.id}) |> Ash.create!()
       end)
 
+    # Crashing here
     comment = comment |> Ash.load!([:double_post_comments_count])
 
-    assert comment.post_comments_count == 6
+    assert comment.double_post_comments_count == 6
   end
 end
