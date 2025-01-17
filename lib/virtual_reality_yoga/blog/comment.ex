@@ -35,5 +35,16 @@ defmodule VirtualRealityYoga.Blog.Comment do
         end)
       end
     end
+
+    calculate :double_post_comments_count, :integer do
+      load :post_comments_count
+
+      calculation fn comments, ctx ->
+        comments
+        |> Enum.map(fn comment ->
+          comment.post_comments_count * 2
+        end)
+      end
+    end
   end
 end
