@@ -6,6 +6,7 @@ on:
 env:
   otp: 27.2.0.0
   elixir: 1.18.1
+  MIX_ENV: test
 
 jobs:
   check:
@@ -28,6 +29,22 @@ jobs:
         with:
           otp-version: ${{env.otp}}
           elixir-version: ${{env.elixir}}
+
+      # { Cache
+
+      - name: Get current date
+        id: date
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+
+      - name: Cache
+        uses: actions/cache@v4.2.0
+        with:
+          path: |
+            deps
+            _build
+          key: ${{runner.os}}-${{env.otp}}-${{env.elixir}}-${{env.MIX_ENV}}-${{hashFiles('**/mix.lock')}}-${{steps.date.outputs.date}}
+
+      # } Cache
 
       - run: mix do local.rebar --force, local.hex --force
 
